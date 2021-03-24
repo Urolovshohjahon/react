@@ -1,144 +1,152 @@
-import logo from './logo.svg';
-//import './App.css';
-import { Best } from './components/Best';
-import Welcome from './components/Welcome';
-import Alpha from './components/jsx';
-import FunctionClick from './components/FunctionClick';
-import ClassClick from './components/ClassClick';
-import EventBind from './components/EventBind';
-import ParentComponent from './components/ParentComponent';
-import ConditonalComponent from './components/ConditonalComponent'
-import NameList from './components/NameList'
-import Inline from './components/Inline'
-import Stylesheet from './components/Stylesheet'
-import Fragment from './components/Fragment'
-import ParentComp from './components/MemoComp'
-import RefDemo from './components/RefDemo'
-import Input from "./components/Input"
-import Portal from './components/Portal'
-import Errors from './components/Errors'
-import ErrorBound from './components/ErrorBound';
-import Counter from './components/Counter';
-import TheFirst from './components/TheFirst';
-import User from './components/User'
-import ClickCounter from './components/ClickCounter'
-import ComponentF from './components/ComponentF'
-import { UserProvider } from './components/userContext';
-import PostList from './components/HTTPGET';
-import HTTPPOST from './components/HTTPPOST'
-import HooksClick from './components/HooksClick'
-import HooksObject from './components/HooksObject'
-import HooksArray from './components/HooksArray'
-import HooksUseEffects from './components/HooksUseEffects'
-import ClassCoords from './components/ClassCoords'
-import HooksCoords from './components/HooksCoords'
-import HooksDisplay from './components/HooksDisplay'
-import HooksTimer from './components/HooksTimer'
-import HooksGET from './components/HooksGET'
-import HooksGETReal from './components/HooksGETReal'
-import HooksGETReal_2 from './components/HooksGETReal_2'
-import Example from './components/HooksGETReal_example';
-import React, { useReducer } from 'react';
-import HooksContext1 from './components/HooksContext1';
-import HooksContext1Between from './components/HooksContext1Between';
-import HooksCounterOne from './components/HooksCounterOne';
-import ComponentB from './components/ComponentB';
-import ComponentA from './components/ComponentA';
-import DataFetchingOne from './components/DataFetchingOne';
-import DataFetchingTwo from './components/DataFetchingTwo';
-import HooksUmumiyImport from './components/HooksUmumiyImport';
-export const Context = React.createContext();
-export const Channel = React.createContext();
-export const UseContext = React.createContext();
+import React, { Component } from 'react';
+import './components/Header/Header.css';
+import './components/Header/AOS.css';
+import './fonts/font-awesome.min.css';
+import AOS from 'aos';
+import { BrowserRouter } from 'react-router-dom';
+import HeaderNav from './components/Header/HeaderNav/HeaderNav';
 
-//const initialState = 0
-//const reduce = (state, action) => {
-//  switch (action) {
-//    case 'increment':
-//      return state + 1
-//    case 'decrement':
-//      return state - 1
-//    case 'reset':
-//      return initialState
-//    default:
-//      return state
-//  }
-//}
+export class App extends Component {
 
+  constructor(props) {
+    super(props)
+    this.changed = this.changed.bind(this)
+    this.Removed = this.Removed.bind(this)
+    this.Added = this.Added.bind(this)
+    this.state = {
+      bg: false,
+      count: 0,
+      price: 0,
+      order: {
+        gamburger: 0,
+        limonad: 0,
+        palov: 0,
+        hotdog: 0,
+        juice: 0,
+        pizza: 0
+      },
+      isNull: {
+        limonad: true,
+        gamburger: true,
+        juice: true,
+        hotdog: true,
+        palov: true,
+        pizza: true
+      },
+      orderNow: true
+    }
 
-function App() {
+  }
+  changed = () => {
+    this.setState({ bg: !this.state.bg })
+  }
+  Added = (type) => {
+    this.setState((prev) => ({ count: prev.count + 1 }))
+    this.setState((prev) => ({ price: prev.price + 1.45 }))
+    console.log(this.state.price)
+    let items = {
+      ...this.state.order
+    }
+    items[type] = this.state.order[type] + 1;
+    this.setState({ order: items })
+    if (items[type] > 0) {
+      let buttonItems = {
+        ...this.state.isNull
+      }
+      buttonItems[type] = false
+      this.setState({
+        isNull: buttonItems
+      })
+    }
+    const isNulls = ['gamburger', 'limonad', 'palov', 'hotdog', 'juice', 'pizza']
+    let counter = 0
+    for (let key in isNulls) {
+      if (this.state.isNull[isNulls[key]]) {
+        counter++
+        console.log(isNulls[key])
+      }
+    }
+    let newOrderNow = this.state.orderNow
+    if (counter === isNulls.length) {
+      newOrderNow = true
+      this.setState({ orderNow: newOrderNow })
+    }
+    else {
+      newOrderNow = false
+      this.setState({ orderNow: newOrderNow })
+    }
+  }
+  Removed = (type) => {
+    this.setState((prev) => ({ count: prev.count - 1 }))
+    this.setState((prev) => ({ price: prev.price - 1.45 }))
+    console.log(this.state.price)
+    let items = {
+      ...this.state.order
+    }
+    items[type] = this.state.order[type] - 1;
+    this.setState({ order: items })
+    if (items[type] === 0) {
+      let buttonItems = {
+        ...this.state.isNull
+      }
+      buttonItems[type] = true
+      this.setState({
+        isNull: buttonItems
+      })
 
- //const [count, dispatch] = useReducer(reduce, initialState)
+    }
+    const isNulls = ['gamburger', 'limonad', 'palov', 'hotdog', 'juice', 'pizza']
+    let counter = 0
+    for (let key in isNulls) {
+      if (this.state.isNull[isNulls[key]]) {
+        counter++
+        console.log(isNulls[key])
+      }
+    }
+    let newOrderNow = this.state.orderNow
+    if (counter === isNulls.length) {
+      newOrderNow = true
+      this.setState({ orderNow: newOrderNow })
+    }
+    else {
+      newOrderNow = false
+      this.setState({ orderNow: newOrderNow })
+    }
 
+  }
 
-  return (
-    <div className="App">
-      {/*<Best name="Shohjahon"><p>Pu paragraf</p></Best>
-      <Welcome />
-      <Alpha />
-      <FunctionClick />
-      <ClassClick />
-      <EventBind />
-      <ParentComponent />
-      <ConditonalComponent/>
-      <NameList/>
-      <Inline/>
-      <Stylesheet />
-      <Fragment/>
-      <ParentComp/>
-      <RefDemo/>
-      <Input />
-      <Portal/>
-      <ErrorBound>
-        <Errors hero="Joker" />
-      </ErrorBound>
-      <ErrorBound>
-        <Errors hero="Superman" />
-      </ErrorBound>
-      <TheFirst/>
-      <Counter render={(count, Clicked) => <ClickCounter count={count} Clicked={Clicked} />} />
-      <User render={(isLogin) => isLogin ? 'Vishwas' : 'Guest'} />
-      <UserProvider value='jack'>
-        <ComponentF />
-      </UserProvider>
-      <ComponentF />
-      <PostList/>
-      <HTTPPOST/>
-      <HooksClick/>
-      <HooksObject/>
-      <HooksArray/>
-      <HooksUseEffects/>
-      <ClassCoords/>
-      <HooksCoords/>
-      <HooksDisplay/>
-      <HooksTimer />
-      <HooksGET/>
-      <HooksArray/>
-      <HooksGETReal/>
-      <Example/>
-      
-      <Context.Provider value='Boriga baraka'>
-        <Channel.Provider value="Zo'rTV">
-          <HooksContext1Between />
-        </Channel.Provider>
-      </Context.Provider>
-      
-      <HooksCounterOne />
+  render() {
+    let Styled = {
+      background: this.state.bg ? 'white' : 'black'
+    }
+    let Styled2 = {
+      color: this.state.bg ? 'black' : 'white',
+      fontSize: '24px',
+      fontWeight: '700',
+      ':hover': {
+        color: 'green'
+      }
+    }
+    AOS.init()
 
-      <UseContext.Provider value={{ countState: count, countDispatch: dispatch }}>
-        <div>
-          Count - {count}
-          <ComponentB/>
-          <ComponentA/>
+    return (
+      <BrowserRouter>
+        <div style={Styled}>
+          <HeaderNav
+            changeBack={this.changed}
+            Added={this.Added}
+            count={this.state.count}
+            price={Math.abs(this.state.price.toFixed(2))}
+            order={this.state.order}
+            Removed={this.Removed}
+            isNull={this.state.isNull}
+            Styled2={Styled2}
+            orderNow={this.state.orderNow}
+          />
         </div>
-      </UseContext.Provider>
-      <HooksGETReal_2 />
-      <DataFetchingOne/>*/}
-      <DataFetchingTwo/>
-      <HooksUmumiyImport/>
-
-    </div>
-  );
+      </BrowserRouter >
+    )
+  }
 }
 
-export default App;
+export default App
